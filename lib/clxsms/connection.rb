@@ -15,14 +15,18 @@ module Clxsms
           :content_type => "text/plain",
           :timeout => 5,
           :open_timeout => 5,
-        },
-        :params => params.merge({
-          username: Clxsms.username,
-          password: Clxsms.password,
-        })
+          :user_agent => Clxsms.user_agent,
+        }
       )
 
-      resource[path].get{ |response, request, result, &block|
+      resource[path].get(
+        params: params.merge(
+          {
+            username: Clxsms.username,
+            password: Clxsms.password,
+          }
+        )
+      ){ |response, request, result, &block|
         case response.code
         when 202
           { success: true, message: response }
