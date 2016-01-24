@@ -9,6 +9,8 @@ module Clxsms
     def connection(path, params={})
       host = Clxsms.ssl_enabled == true ? Clxsms.https_host : Clxsms.http_host
       params.merge({ 'dlr-mask': Clxsms.dlr_mask, 'dlr-url': Clxsms.dlr_url }) if params[:delivery_report] == true
+      params.delete :delivery_report
+
       resource = RestClient::Resource.new(
         host,
         :headers => {
